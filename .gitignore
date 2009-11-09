@@ -1,0 +1,10 @@
+[Pp]lugins/
+[Dd]ebug/
+[Rr]elease/
+[Bb]in/
+[Oo]bj/
+mono_bin/*
+*.pfx
+*.suo
+*.sln.cache
+*.user

@@ -1,0 +1,554 @@
+todo:
+
+dsp: -skip=1:25.53 (etc)
+
+all the weighting etc is busted
+
+plugin graph: separate EQ for each channel
+
+plugin graph: no smoothing in reported json
+
+WaveWriter add filename: when pipe end -> say source or dest (stream, filename)
+
+plugin: nuhi fast-mp3 weirdness
+
+installer 6.5 vs 7.0
+
+==== NEXT:
+
+write AMBU chunk into UHJ decodes (and finish WaveChunk work)
+
+plugin handle .UHJ as like WAV (but potentially different amb decode later)
+
+plugin: WaveInput?
+
+plugin: way to strip down the menus??  EQ "off"?  (nuhi suggestion)
+
+web: demonstrator for the webpage
+	(skip ajax stuff; hard-code some play values)
+
+plugin: loudness from 0% to 100% (dsp is ready to handle this)
+
+plugin: flatness from 0% to 100% (dsp is ready to handle this)
+
+web: pull down wavs for octave processing - auto - and publish back as gifs
+
+plugin (later): CLI for RTA (measurement upload, etc)
+
+ambisonic -> aften -> spdif
+
+ImpulsePrep: handle any number of inputs (0 or more)
+
+Analyze impulse response, produce recommendations on room treatment & driver alignment
+
+web: impulseprep doc
+	- copy flag
+	- uptodate screenshots
+	- acourate
+	- drc install bits
+web: presets doc
+web: ambisonic settings doc
+web: how it works
+web: separate the measurement (with the new test signals)
+
+
+==== NICE TO HAVE / LATER:
+
+impulseprep: analyse distortion
+- and add distortion magnitudes to the impulse... more accurate magnitude correction?
+
+WaveWriter: NormalizationMode (peak, or RMS average...)
+
+dsp: handle 4ch (etc) filter impulses, as placeholder for multich output stuff
+
+stack trace with line numbers?
+
+dsp: licensing
+
+write up the mac install
+
+impulseprep: crash in Prep(), if right impulse is twice length of left
+
+dsp: sox resample: do each channel separately (so we can resample amb etc)
+
+ambisonic: binaural decode
+		
+ambisonic: crossover filters
+
+ambisonic: two completely separate decode channels (low & hihg freqs) then mix
+
+ambisonic: decode to 5.1 or rectangular, then compress to AC3 with "aften"
+	(probably need to SPDIF-WAV-encode afterwards)
+
+new app: siggen
+
+impulseprep: handle any number of channels
+
+dsp/plugin: setting for speaker angle @ listening pos
+
+dsp/plugin: "depth" control via ambisonic transform?
+
+plugin: support RTSP? (alienbbc)
+
+skew: fractional sample skew (requires interpolation... convolve with sinc at nyquist)
+
+new app: waterfall (and other analysis charts),... silverlight?
+
+dsp/plugin: make it easy to not select processing for a particular squeezebox
+
+dsp/plugin: uninstall documentation on web
+
+dsp/plugin: document replaygain (or see what happens? or... handle it?? can wav include replaygain, and can we then re-encode keeping that intact?)
+
+dsp: test vista install (no, someone has same problem on XP!)
+
+dsp: test mac (68k: big-endian)
+
+dsp: sweep: cut of at end?
+
+tools: clean up 'sweep' and release it
+
+flatness: increase resolution as well as intensity
+
+loudness weighting: can we make sure the channels are reasonably well balanced? eg my k measurements.
+
+
+licensing: server db
+
+licensing: write license.xml
+
+
+all apps: detect whether run from command prompt vs explorer?
+
+dsp: sig gen: shaped burst
+
+? plugin/dsp: support negative Quietness values
+
+ImpulsePrep: GUI
+
+impulseprep: upload to site
+
+web downloader & processor
+	- fetch, to work queue, and commit
+	- for each measured impulse, produce graphs
+		impulse response time domain
+		impulse response frequency domain
+		impulse response group delay
+		waterfall
+		
+impulseprep: direct sound by target not by filter?
+
+WaveWriter: make able to write WAVEFORMATEXTENSIBLE, so we can output B-Format
+
+dsp: A/B/X mode
+
+dsp: resample
+	88.2 -> 96 for Transporter (and maybe, other rates to 96?)
+	88.2 -> 44.1, 96 -> 48 for SB3
+	
+dsp: key
+	play wav file with 'DISP' chunk containing inguz audio + key
+	http://209.85.165.104/search?q=cache:3uHKgcs7fEsJ:abcavi.kibi.ru/docs/riff1.doc+wav+fmt+data+riff+wave+disp&hl=en&ct=clnk&cd=7&gl=us
+	
+	or WAVEFORMATEXTENSIBLE with a special guid for me, and the key stashed somewhere else
+	
+	one key per device (not per server)!
+	- need to play the track on the right device (or on a system that knows the right device) to unlock
+	
+impulseprep: test linux
+
+
+sample matrix impulses:
+	choueiri
+	flattened choueiri versions
+	
+dsp: flatness is broken (quite badly), should be able to invert itself
+
+dsp: write "flatness test" output: should be near-flat (and maybe can optimize flatness by looking for min diff instead??)
+
+ISoundObj.Apply(ISoundObj), alternative to .Input?
+
+
+? plugin or core: allow separate dsp pipelines for synchronized players?!
+
+? dsp: if (e.g.) ADPCM and "-wav".. what then?
+    - can we just pass it through to squeezebox unchanged (bit-for-bit)?
+
+dsp: flatness: make not-linear base?
+    - more variation near flat
+    - flatten by loudnessness, not linearly across the frequency domain?
+        flat 0: original
+        flat 1: flattening factor: differential-loudness @ 90-80? ?? (duh)
+        flat 10: flat (factor: diffL @ 
+
+SlimCLI package wrap useful stuff
+
+	
+	
+Auto-process series of sweep recordings
+	- assume we want at least 10 sweeps for each channel
+	- mark each channel uniquely -- with the pulse?
+		- eg. pulse left mark with 600Hz, right with 800?
+	
+Splice: handle all sorts of input not just raw
+Slice, split channels.
+
+Join & Split: separate at given time or sample.
+
+Dither for 32f output
+    - error is the same
+    - offset is not +/-1, it's +/- 1LSB (whatever that means; 1 * exponent * double.Epsilon? how many sig bits?)
+
+---
+
+x ngen, instead of JIT, should reduce startup time & maybe even get more perf
+    (no, basically no difference)
+
+. Combine "deconvolve" and channel-splice for single processing app
+    - always aim at flat (or whatever) output - don't fix target here
+
+. Deconvolve: much more memory-efficient
+x Deconvolve: output three "target" files corresponding to the room
+
+. inguzdsp: show peak level when done
+
+x Quantizer: convolve with kaiser windowd sinc
+	- Parks/McClellan applet http://www.dsptutor.freeuk.com/remez/RemezFIRFilterDesign.html
+	- also see http://bmrc.berkeley.edu/mhonarc/openmash-developers/msg01360.html
+
+x ?Oversample the sweep inverse, & the convolution --> higher samplerate impulse??
+	- can average & avoid clock skew issues
+        -- NO, this doesn't avoid real clock divergence; need to record two tracks.
+
+x DRC: make several target files (times several settings files...?)
+    - unequalized room
+    - half-way
+    - flat
+    when deconvolving the sweeps: fft, then find max using third-octave bins
+
+    (extra stuff in deconvolve)
+
+. dsp: on new version, wipe cache (C:\Documents and Settings\All Users\Application Data\InguzEQ\Temp folder)
+
+. calibration at startup, if not known settings for a given impulse:
+      x convolve the impulse with pink noise
+            - figure whether 2 or 4 partitions is faster
+            - calculate gain (start with big gain, wait long enough for it to adjust down, then to-3dBFS)
+        (impl: does flatness filters, and calculates weighted-noise gain for each filter)
+
+. Ship "Quietness_<N>" from 0 to 10,
+    with quietness targets (on a ERB scale)... constant-loudness-adjusted
+    - as filters?
+    - as text files?
+    (don't ship them - just regenerate whenever needed for EQ's settings)
+
+(-->release 0.9.7)
+
+. Flat Filterimpulses: make them really true dirac response (instead of rounding errors)
+. Flat _impulseVolume in inguzDSP, make it really unity gain (instead of rounding errors)
+. Convolver: tail persist in the temp folder
+. WaveR/W: just use 64-bit with IEEE_FLOAT instead of our Waveformat.INTERNAL_DOUBLE  
+. Convolver: tail in 64 float format
+. Flatness: ignore (or de-emphasise) regions <20 and >20K Hz (to avoid e.g. the nasty stuff with bk-3-spline)
+x inguzdsp: truncate & normal-window arbitrarily long impulse files to 65536 (or other specified max)
+        - no need, this is done in impulseprep now
+
+(-->release 0.9.7.1)
+
+. inguzdsp: maximpulse default 65536 instead of 32768.  Now that the impulseprep creates 32k impulses we should default to 64k just in case.
+. thread.sleep after each block of a convolution - see whether this makes any difference (yes, think it does)
+. dsp config: default gain -6.0206 dB (one bit, near-exactly... -0.60205999132796239042747778944899)
+. dsp: flatness name hash: include timestamp of the filter file (so we regenerate the flatness filters when impulses change)
+. plugin: handle SB1 (no FLAC conversion; keep it 16-bit)
+. dsp: maximpulse: don't just chop it, find the peak and window
+. impulseprep: param "/length" to set filter length (default 32768, but allow override)
+. dsp: -wav parameter for non-RAW input (eg. WAV... duh...)
+. dsp: -r for samplerate, change from -b
+. plugin: -wav param
+. plugin: $RATE$
+. Test: all the various filetypes    - make a little collection
+
+(-->release 0.9.9)
+
+. WaveReader handle 'LIST' tag before 'fmt ' tag (in WMP11-ripped wav files)
+
+(-->release 0.9.9.1 of DSP)
+
+. WaveReader handle AIFF as well as WAV
+. plugin handle AIFF and Apple Lossless
+. plugin handle non-44100 bit rates to flac properly so they stay normal speed
+
+(-->release 0.9.10)
+
+. dsp: uint, not ushort, for sample rate (doh), now handle non-44100 (finally?)
+. dsp: pass _inputSampleRate to writer properly
+. dsp: move to all-C# FFT
+. plugin: flac source: retain wav header so we can tell samplerate
+. splice: support splicing 64-bit WAVs, for acourate
+. plugin: use nice circle/dot selectors instead of [x]
+. plugin - disable 'flatness' if no filter specified
+. webpages: document how to use Splice to splice Acourate .dbl files left and right
+. dsp: add matrix filter and Mid/Side gain (stereo width)
+. impulseprep: log the which-is-sweep ch
+. impulseprep: log the skew between channels
+. dsp: skew, balance
+. dsp: fix partitioned convolution
+. plugin: implement skew, balance (remove depth)
+. dsp: convolve EQ with impulse --> only one convolver, better perf
+. dsp: constant-loudness on impulse: too intense (Loudness.WeightedVolume 40 dbSPL not 60)
+. dsp: fix the tail
+. dsp: expire June
+x Optimize chains of convolvers (if input is a convolver, multiply its impulseFFT by ours)
+x dsp: quietness doesn't affect the sound... (no, it was just really subtle!)
+. dsp: fix windowing of the too-long impulse
+. tools: include Splice in the tools package
+
+(-->release 0.9.11)
+
+. dsp: fix "\" path sep for Mono
+. dsp: don't barf on config-changed-but-can't-read-file-yet error
+. dsp: fix spurious exception msgs when run with no parameters or with unknown ID
+. plugin: linux support - and Win32::
+. doc: linux installs
+
+(-->release 0.9.12)
+
+. dsp: add -wavo param for wav output
+. plugin: fix APE, Ogg, MusePack transcode; test...
+. doc: where to put filters, and what the filter actually are
+
+(-->release 0.9.13)
+
+. dsp: resample impulses with sox if necessary, cache in temp folder
+       (now the complete chain is clean for non-44100 sources! yay!)
+. dsp: linux (ubuntu) pick up the exe.config
+       (this was a problem with the mono config installed; just report errors in AppSettingsReader ctor)
+. dsp: always dither, even if no impulse ('cos EQ still needs to be dithered)
+       (user can always disable dither if they really want to)
+. dsp: use timestamp-hash in name of resampled filters
+. dsp: use timestamp-hash in calculating EQ cache name
+. dsp: "Index was outside the bounds of the array" in Skewer._nxt if length is reduced while running
+
+(-->release 0.9.14)
+
+. dsp: add depth (= skew on the matrix impulse)
+. glasgal, for ambio OK
+. 6.5.1 server, test
+. dsp: gapless test
+. Internet Radio: lame "-" (oops) (no, 6.5.1 bug)
+. sample matrix impulses:
+	. headphone (crossfeed and HRTF)
+	. simulated room ambiences
+. dsp: send slim CLI "status message" to client on
+        - failure (exceptions)
+        - license expiry
+        - calibration
+. plugin: test that flatness is editable...! (yes, ok)
+. ImpulsePrep: make a stereo impulse file
+. ImpulsePrep: convolve resulting filters with the impulse file -> wav
+. ImpulsePrep: Linux
+. ImpulsePrep: balance the channels before splice
+. ImpulsePrep: copy the impulse itself; and compensate nearfield vs diffuse
+. ImpulsePrep: process for all .drc files
+. dsp, plugin: signal generator
+. web: quietness doc
+. web: width doc
+. web: sig gen doc
+. web: balance doc
+. plugin: fix order of main menu
+. web: softsqueeze screenshots on Using page
+
+(-->release 0.9.15)
+
+. plugin: fix SlimServr 6.3.1 compat
+
+(-->release 0.9.16)
+
+web: binaural doc
+impulseprep: work with no drc (because then it's useful for acourate), and output .dbl files
+
+(-->release 0.9.17)
+
+. dsp: sig gen: left/right channel identification
+. dsp: sig gen: band-limited versions of square, triangle, sawtooth
+. dsp: sig gen: EQ-processed versions too
+. impulseprep: with /prep flag: save in Pulse{L/R}.dbl for Acourate
+	- 6000 samples before peak
+. impulseprep: fix the filtered impulse response files
+. plugin: sig gen: editable frequencies
+
+(-->release 0.9.18)
+
+impulseprep: acourate L&R was both using left, oops
+
+(-->release 0.9.19)
+
+. dsp: config: default to -16dB not -6
+. dsp: Loudness.WeightedVolume: ignore <20Hz and >17k
+. dsp: make loudness equalization work on each channel of room-correction impulse separately
+. web: before recording: check L/R channel ident
+. dsp: test with large WAVs with cue sheets (Mike's setup) (seems OK)
+. impulseprep: warn if zero samples skew!
+. impulseprep: warn if same file given for L and R
+. dsp: for 44100, create high-accuracy logsweeps with FFT (not done for higher sample rates because it eats memory...)
+. dsp: sig gen: more efficient creation of band-limited signals
+. plugin: remove non-bandlimited sig gen functions
+. impulseprep: linearize the magnitude based on +3dB/oct, then easier to tell where sweep starts and ends
+. impulseprep: don't filter (it should be really close to perfect anyway with high-accuracy sweeps)
+. impulseprep: copy filters to destination folder
+. installer (WIX)
+. dsp: sig gen: silence after
+. installer test xp, vista (XP compliance)
+
+(-->release 0.9.20)
+
+. impulseprep retain fmax/fmin (if they're specified) (undocumented)
+. new app: split
+x new app: synthesize a flat filter with given group delay per freq range
+. impulseprep: check cleanup (no fft files, etc)
+. impulseprep: handle spaces in filenames (for drc)
+x installer: include "command prompt here" shurtcut in Tools? (if we can...)
+. dsp: use toUpper not toLower, better NT consistency
+. plugin/dsp: "sweep with EQ in left channel". and separately for right channel
+? dsp: null reference crash (not sure where this is coming from still)
+. plugin: HASH(...) sometimes, not sure why
+. plugin: parametric centers
+x plugin: "Preferences could not be saved" lots, not sure why (no fix, just don't save so much)
+. plugin: more robustness when loading presets
+. plugin: fix centers when switch EQ-type
+x plugin: upgrade: detect all clients known ever... not just all known right now
+x Setup: auto calculate optimal # partitions (no, 2 is fine)
+x plugin: test 'can't load?' etc quick msgs when start
+. installer: vista: registry locations
+
+(-->release 0.9.21)
+
+. plugin: 6.3.1 compat again
+. plugin: bad savePrefs bug
+
+(-->release 0.9.22)
+
+. dsp: test 64-bit/XP
+. dsp: crash if can't write tail
+. plugin: main menu, bands: show level overlay
+. plugin: large text: doesnt stringify (oops!)
+. dsp: test the "EQ in one channel" thing
+. dsp: remove spurious "Can't use :" messages
+. plugin: support .AMB, treat as WAV
+. plugin: test softsqueeze (OK)
+. dsp: when trying to resample impulse filters, if EXTENSIBLE, export the filter first (to plain WAV) so we know sox can read it
+. dsp: pink with EQ: says pink with EQ *in left*
+. dsp: "amb" flag; decode to 2ch UHJ
+. dsp: read the B-Format wave guid; decode to 2ch UHJ (http://dream.cs.bath.ac.uk/researchdev/wave-ex/bformat.html)
+. dsp: fix WaveReader overflow calculating number of samples, for very large (45min) files
+expiry December 1 2007
+
+(-->release 0.9.23)
+
+x dsp: ambisonic: shelf filters: (not for UHJ)
+x dsp: ambisonic: configurable params for shelves, distance, decode matrix
+x dsp: ambisonic: speaker distance compensation: (IIR R-C) highpass on X&Y (not W) at 53/r Hz, r in meters (not in UHJ)
+. impulseprep: "test convolution" files: export with 16 bit PCM
+. dsp: put sox cmd in config
+. dsp: SPDIF-wrapped (DTS and AC3): pass thru
+x dsp: ambisonic binaural: icosa (from http://mathworld.wolfram.com/Icosahedron.html)
+. plugin: [alac] needs -wav otherwise click @ start of apple lossless tracks
+. dsp: WaveWriter handle EXTENSIBLE
+. oops: something broke playback
+. impulseprep: test time alignment again
+
+(-->release 0.9.24)
+
+x bandpass filter on impulse: look for peak positions and report them
+	(so can tell physical alignment)
+	(doesn't work)
+. Impulseprep: more commandline params
+. Impulseprep: handle weird "peak position" results from mortod...
+. ImpulsePrep: if /pcm: output files needed for DRC Octave graphs
+. ImpulsePrep: allow to not override DRC settings
+. ImpulsePrep: if /sweep flag, separate the measurement & sweep, for lsconv
+. try octave graphs of my own setup, compare with ronald
+. dsp: fix DTS stuff properly (was rescaling badly on output dither)
+. plugin: use -wavo for DTS-likely things so we don't get 24-bit re-encode
+. plugin: use -wavo for FLAC re-encode generally if possible
+. plugin: don't use the -r (rate) param, even if we can
+. plugin: save-preset-as... patch
+. dsp: IndexOutOfRangeException in mono files
+. dsp: also fix 3ch, 4ch WAV sources (throwing away the higher channels)
+. plugin: apply Toby Dickenson's save-preset-as... patch
+. dsp: test with internet radio
+. dsp: test with TWIT podcast
+. dsp: siggen: more silence after the sweep
+. dsp: check clipping doesn't behave badly
+. dsp & plugin: "stereo pink noise" (and with-EQ)
+
+(-->release 0.9.25)
+
+. impulseprep: crash when none of my silly new flags (oops)
+
+(-->release 0.9.26)
+
+. fix invision forums, gallery etc
+. dsp: <AmbisonicDecode Type="_ambiType" Cardioid="0.nnn" />
+. ImpulsePrep: option to skip the subsonic filter
+. ImpulsePrep: skip the _direct filters by default, option to turn them on
+x ImpulsePrep: mortod says it just exits when no DRC files present (nrep)
+. DSP: log time spent during init as well as run
+. DSP: EQ filters are busted (notch at LF), oops. (No: artifact of over-normalized files.
+	There was a small off-by-one thing and unnecessary windowing of FilterImpulse that caused LF ripple, though...)
+. dsp: make the EQ filters longer if the band centers are closely spaced
+. dsp: loudness, flatness from 0 to 100% if detect "%" sign...
+. dsp: flatness: smoother for high-flatness filters
+. dsp: loudness.wv: equalize against a real Dirac pulse, even though that would take twice as long? (yes)
+. dsp: loudness.VW needs to be *much* faster (ouch!) (cache)
+. dsp: now thatness recalc is harder: debounce more on config change
+. dsp: fix Loudness.WeightedVolume
+. dsp: check final loudnesses: -16 shouldn't clip (no EQ: c:\Music\FiletypeTest\1644_wav.wav 7.9*rt, peak -8.7089 dBfs)
+x ImpulsePrep: "direct": nuhi says bad FR (nrep)
+. web: name tags
+. web: fix scrollbars
+. dsp: fix non-44100 flatness
+. dsp: fix sox bad resample
+. dsp: add "Bypass" in settings file
+
+(-->release 0.9.27)
+
+. dsp: if can't read settings file, still read _gain
+. impulseprep: fix line length in help screen
+. dsp: output json "current frequency response" (EQ and flatness and loudness...)
+. web: document the "debug" inguzdsp flag (and others...?)
+. plugin: SS7 support
+. plugin: CLI "current" get
+. plugin: Silverlight applet to parse json and graph it
+	- make "EQ curve" adjustable by dragging; submit when let go
+. plugin: CLI for Jive applet / Silverlight applet: current, set
+. impulseprep: don't force flat target for _direct filters
+. plugin: player settings page
+. ambisonic: blumlein decode (this was a while ago)
+. sweep: new app for Tools
+. ImpulsePrep, add NoSkew parameter
+. splice, add "norm" flag
+. ambisonic: different angles for crossed hypercardioids
+. ambisonic: rotation
+. ambisonic: jW mix
+. plugin: AACPlus (http://wiki.slimdevices.com/index.cgi?AACplus)
+x plugin: gain adjustment: on menus? (no)
+x plugin: "bypass" setting: on menus? (no)
+. plugin: new settings menu item: ambisonic decode
+. plugin: amb decode jW (no, excluded from UI)
+. plugin: amb rotation
+. dsp: left/right siggen was broken and dumb anyway; replace with spoken word
+. dsp: dither was busted (audibly, at 8b) due to cacheing strategy
+. plugin: flatness zero is written to config as 10
+. dsp: "divide by zero" if input file not found
+. dsp: always output PCM, so support 32f input
+x dsp: clip between MP3 tracks (no, that's a LAME bug)
+
+(-->release 0.9.28)
+
+(-->release 0.9.29)
+
+. dsp: can't read (Norwegian, etc) comma decimal separator in config file
+. dsp: -skip
+
+(-->release 0.9.30)
