@@ -355,6 +355,7 @@ namespace InguzDSP
                 Trace.WriteLine("Setup " + ts.TotalMilliseconds);
             }
 
+            /*
             DateTime exp = DSPUtil.DSPUtil.EXPIRY;
             if (exp != null)
             {
@@ -372,6 +373,7 @@ namespace InguzDSP
                     Trace.WriteLine("This evaluation version will expire {0}", DSPUtil.DSPUtil.EXPIRY);
                 }
             }
+            */
 
             // Read the configuration file
             doRun = LoadConfig2();
