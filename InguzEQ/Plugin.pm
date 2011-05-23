@@ -388,7 +388,7 @@ sub oldConfigPath
 
 sub newConfigPath
 {
-	my @rootdirs = Slim::Utils::PluginManager::pluginRootDirs();
+	my @rootdirs = Slim::Utils::PluginManager::dirsFor($thisapp,'enabled');
 	for my $d (@rootdirs)
 	{
 		if( $d =~ m/$thisapp/i )
@@ -739,12 +739,12 @@ sub webPages
 
 	if( Slim::Utils::PluginManager->isEnabled("Plugins::InguzEQ::Plugin") )
 	{
-		Slim::Web::HTTP::addPageFunction("plugins/InguzEQ/index.html", \&handleWebIndex);
-		Slim::Web::HTTP::addPageFunction("plugins/InguzEQ/Silverlight.js", \&handleWebStatic);
-		Slim::Web::HTTP::addPageFunction("plugins/InguzEQ/Scene.js", \&handleWebStatic);
-		Slim::Web::HTTP::addPageFunction("plugins/InguzEQ/Model.js", \&handleWebStatic);
-		Slim::Web::HTTP::addPageFunction("plugins/InguzEQ/Scene.xaml", \&handleWebStatic);
-		Slim::Web::HTTP::addPageFunction("plugins/InguzEQ/inguz.png", \&handleWebStatic);
+		Slim::Web::Pages->addPageFunction("plugins/InguzEQ/index.html", \&handleWebIndex);
+		Slim::Web::Pages->addPageFunction("plugins/InguzEQ/Silverlight.js", \&handleWebStatic);
+		Slim::Web::Pages->addPageFunction("plugins/InguzEQ/Scene.js", \&handleWebStatic);
+		Slim::Web::Pages->addPageFunction("plugins/InguzEQ/Model.js", \&handleWebStatic);
+		Slim::Web::Pages->addPageFunction("plugins/InguzEQ/Scene.xaml", \&handleWebStatic);
+		Slim::Web::Pages->addPageFunction("plugins/InguzEQ/inguz.png", \&handleWebStatic);
 		Slim::Web::Pages->addPageLinks("plugins", { $class->getDisplayName => 'plugins/InguzEQ/index.html' });
 		Slim::Web::Pages->addPageLinks("icons",   { $class->getDisplayName => 'plugins/InguzEQ/inguz.png' });
 	}
