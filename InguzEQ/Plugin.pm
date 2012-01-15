@@ -138,7 +138,7 @@ use Plugins::InguzEQ::Settings;
 # Anytime the revision number is incremented, the plugin will rewrite the
 # slimserver-convert.conf, requiring restart.
 #
-my $revision = "0.9.31";
+my $revision = "0.9.33";
 use vars qw($VERSION);
 $VERSION = $revision;
 

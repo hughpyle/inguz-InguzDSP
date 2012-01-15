@@ -1,6 +1,6 @@
 InguzDSP
 
-Copyright (c) 2006-2009 by Hugh Pyle, inguzaudio.com, and contributors.
+Copyright (c) 2006-2012 by Hugh Pyle, inguzaudio.com, and contributors.
 See License.txt for license terms and conditions of use.
 
 InguzDSP is a signal processing plugin for the Squeezebox Server / SqueezeCenter / SlimServer.

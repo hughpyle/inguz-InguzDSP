@@ -2,7 +2,7 @@
 # Part of the InguzEQ plugin, http://inguzaudio.com/EQ/
 # This file is licensed to you under the terms described in "Plugin.pm"
 #
-# Copyright (c) 2006-2009 by Hugh Pyle, inguzaudio.com, and contributors.
+# Copyright (c) 2006-2012 by Hugh Pyle, inguzaudio.com, and contributors.
 
 PLUGIN_INGUZEQ_MODULEDESC
 	EN	Inguz EQ and Room Correction

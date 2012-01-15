@@ -1,22 +1,22 @@
 <?xml version="1.0"?>
 <extension>
-        <name>PLUGIN_INGUZEQ_DISPLAYNAME</name>
-        <description>PLUGIN_INGUZEQ_MODULEDESC</description>
-        <module>Plugins::InguzEQ::Plugin</module>
-        <version>0.9.30</version>
+  <name>PLUGIN_INGUZEQ_DISPLAYNAME</name>
+  <description>PLUGIN_INGUZEQ_MODULEDESC</description>
+  <module>Plugins::InguzEQ::Plugin</module>
+  <version>0.9.33</version>
 
-        <creator>Inguz Audio</creator>
-        <email>hpyle@inguzaudio.com</email>
-        <homepageURL>http://inguzaudio.com/</homepageURL>
+  <creator>Inguz Audio</creator>
+  <email>hpyle@inguzaudio.com</email>
+  <homepageURL>http://inguzaudio.com/</homepageURL>
         
-	<id>B2097381-C0A6-4fac-834E-652E7714FDDA</id>
-	<optionsURL>plugins/InguzEQ/index.html</optionsURL>
-	<type>2</type>
-	<defaultState>enabled</defaultState>
+  <id>B2097381-C0A6-4fac-834E-652E7714FDDA</id>
+  <optionsURL>plugins/InguzEQ/index.html</optionsURL>
+  <type>2</type>
+  <defaultState>enabled</defaultState>
 
-        <targetApplication>
-  	        <id>SqueezeCenter</id>
-                <minVersion>7.3.0</minVersion>
-                <maxVersion>7.*</maxVersion>
-        </targetApplication>
+  <targetApplication>
+  <id>SqueezeCenter</id>
+   <minVersion>7.3.0</minVersion>
+   <maxVersion>7.*</maxVersion>
+  </targetApplication>
 </extension>
